@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Reflection.Emit;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -27,8 +28,7 @@ namespace Workpaces.Models
         }
 
         public virtual DbSet<Reserva> Reserva { get; set; }
-        public virtual DbSet<Rol> Rol { get; set; }
-        public virtual DbSet<Usuario> Usuario { get; set; }
+       
         public virtual DbSet<Sala> Sala { get; set; }
 
         public static ApplicationDbContext Create()
@@ -36,7 +36,7 @@ namespace Workpaces.Models
             return new ApplicationDbContext();
         }
     }
+  
 
 
-
-}
+    }

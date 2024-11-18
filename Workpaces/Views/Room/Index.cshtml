@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Workpaces.Models.Sala>
+
+@{
+    ViewBag.Title = "Salas";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Agregar Sala", "Crear", new { }, new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Capacidad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ubicacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DisponibilidadEquipo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Estado)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Capacidad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ubicacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DisponibilidadEquipo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Estado)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Editar", new { id = item.IdSala }, new { @class = "btn btn-secondary" })|
+            @Html.ActionLink("Eliminar", "Eliminar", new { id = item.IdSala }, new { @class = "btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>
