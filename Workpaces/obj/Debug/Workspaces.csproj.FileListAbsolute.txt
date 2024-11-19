@@ -108,3 +108,6 @@ C:\Users\alexa\source\repos\Workspaces\Workpaces\obj\Debug\Workpaces.dll
 C:\Users\alexa\source\repos\Workspaces\Workpaces\obj\Debug\Workpaces.pdb
 C:\Users\alexa\source\repos\Workspaces\Workpaces\obj\Debug\Workpaces.Migrations.AppSet.resources
 C:\Users\alexa\source\repos\Workspaces\Workpaces\obj\Debug\Workspaces.csproj.GenerateResource.cache
+C:\Users\alexa\source\repos\Workspaces\Workpaces\obj\Debug\Workpaces.Migrations.AppSet1.resources
+C:\Users\alexa\source\repos\Workspaces\Workpaces\obj\Debug\Workpaces.Migrations.AppSet2.resources
+C:\Users\alexa\source\repos\Workspaces\Workpaces\obj\Debug\Workpaces.Migrations.AppSet3.resources

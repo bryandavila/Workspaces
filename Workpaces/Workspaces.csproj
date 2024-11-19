@@ -179,6 +179,18 @@
     <Compile Include="Migrations\202411180248008_AppSet.Designer.cs">
       <DependentUpon>202411180248008_AppSet.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202411192000504_AppSet1.cs" />
+    <Compile Include="Migrations\202411192000504_AppSet1.Designer.cs">
+      <DependentUpon>202411192000504_AppSet1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411192010402_AppSet2.cs" />
+    <Compile Include="Migrations\202411192010402_AppSet2.Designer.cs">
+      <DependentUpon>202411192010402_AppSet2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411192016374_AppSet3.cs" />
+    <Compile Include="Migrations\202411192016374_AppSet3.Designer.cs">
+      <DependentUpon>202411192016374_AppSet3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Reserva.cs" />
@@ -298,6 +310,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202411180248008_AppSet.resx">
       <DependentUpon>202411180248008_AppSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411192000504_AppSet1.resx">
+      <DependentUpon>202411192000504_AppSet1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411192010402_AppSet2.resx">
+      <DependentUpon>202411192010402_AppSet2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411192016374_AppSet3.resx">
+      <DependentUpon>202411192016374_AppSet3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

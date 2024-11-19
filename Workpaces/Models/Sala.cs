@@ -9,6 +9,7 @@ namespace Workpaces.Models
 {
     public class Sala
     {
+    
         [Key]
         public int IdSala { get; set; }
         [Required]
@@ -25,7 +26,7 @@ namespace Workpaces.Models
         [Required]
         public bool Estado { get; set; }
 
-        // Relación con Reservas
-        public ICollection<Reserva> Reservas { get; set; }
+       
+        public ICollection<Reserva> Reserva { get; set; }
     }
 }
