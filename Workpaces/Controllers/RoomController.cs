@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -12,12 +13,33 @@ namespace Workpaces.Controllers
     {
         private ApplicationDbContext context = new ApplicationDbContext();
         // GET: Room
+        //[HttpGet]
+        //public ActionResult Index()
+        //{
+        //    var Sala = context.Sala.ToList();
+        //    return View(Sala);
+        //}
+
         [HttpGet]
         public ActionResult Index()
         {
-            var Sala = context.Sala.ToList();
-            return View(Sala);
+            var isAdmin = User.IsInRole("Admin");  // Verifica si el usuario es un administrador
+            List<Sala> salas;
+
+            if (isAdmin)
+            {
+                // Si es administrador, mostrar todas las salas
+                salas = context.Sala.ToList();
+            }
+            else
+            {
+                // Si es usuario, mostrar solo las salas disponibles
+                salas = context.Sala.Where(s => s.Estado == true).ToList();
+            }
+
+            return View(salas);
         }
+
 
         [HttpGet]
         public ActionResult Editar(int? id)

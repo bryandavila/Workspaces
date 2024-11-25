@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using Workpaces.Models;
 
-namespace Workspaces.Models
+namespace Workpaces.Models
 {
     public class Reserva
     {

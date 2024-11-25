@@ -1,0 +1,19 @@
+﻿@model Workpaces.Models.Reserva
+
+<h2>Confirmar eliminación</h2>
+
+<p>¿Estás seguro de que deseas eliminar esta reserva?</p>
+
+<ul>
+    <li><strong>Sala:</strong> @Model.Sala.Nombre</li>
+    <li><strong>Usuario:</strong> @Model.Usuario.UserName</li>
+    <li><strong>Fecha:</strong> @Model.Fecha.ToShortDateString()</li>
+    <li><strong>Hora Inicio:</strong> @Model.HoraInicio</li>
+    <li><strong>Hora Fin:</strong> @Model.HoraFin</li>
+</ul>
+
+@using (Html.BeginForm("EliminarReserva", "Admin", new { idReserva = Model.IdReserva }, FormMethod.Post))
+{
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    @Html.ActionLink("Cancelar", "VerReservas", null, new { @class = "btn btn-secondary" })
+}

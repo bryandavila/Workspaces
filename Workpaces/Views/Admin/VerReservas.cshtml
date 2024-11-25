@@ -1,0 +1,34 @@
+﻿@using Workpaces.Models
+
+@model IEnumerable<Workpaces.Models.Reserva>
+
+<h2>Reservas</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Sala</th>
+            <th>Usuario</th>
+            <th>Fecha</th>
+            <th>Hora Inicio</th>
+            <th>Hora Fin</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reserva in Model)
+        {
+            <tr>
+                <td>@(reserva.Sala?.Nombre ?? "No disponible")</td>
+                <td>@(reserva.Usuario?.UserName ?? "No disponible")</td>
+                <td>@reserva.Fecha.ToString("d")</td>
+                <td>@reserva.HoraInicio</td>
+                <td>@reserva.HoraFin</td>
+                <td>
+                    @Html.ActionLink("Editar", "EditarReserva", new { idReserva = reserva.IdReserva }) |
+                    @Html.ActionLink("Eliminar", "EliminarReserva", new { idReserva = reserva.IdReserva })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

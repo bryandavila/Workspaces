@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Workspaces.Models;
+using Workpaces.Models;
 
 namespace Workpaces.Models
 {
@@ -22,13 +22,14 @@ namespace Workpaces.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        // Si usas un constructor personalizado, asegúrate de que la cadena de conexión esté bien definida
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+
         }
 
-        public virtual DbSet<Reserva> Reserva { get; set; }
-       
+        public virtual DbSet<Reserva> Reservas { get; set; }
         public virtual DbSet<Sala> Sala { get; set; }
 
         public static ApplicationDbContext Create()
@@ -36,7 +37,5 @@ namespace Workpaces.Models
             return new ApplicationDbContext();
         }
     }
-  
 
-
-    }
+}

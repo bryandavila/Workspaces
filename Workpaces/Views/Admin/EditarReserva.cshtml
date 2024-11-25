@@ -1,0 +1,22 @@
+﻿@model Workpaces.Models.Reserva
+
+<h2>Editar Reserva</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.IdReserva)
+
+    <div>
+        <label for="Fecha">Fecha:</label>
+        @Html.EditorFor(model => model.Fecha)
+    </div>
+    <div>
+        <label for="HoraInicio">Hora de inicio:</label>
+        @Html.EditorFor(model => model.HoraInicio)
+    </div>
+    <div>
+        <label for="HoraFin">Hora de fin:</label>
+        @Html.EditorFor(model => model.HoraFin)
+    </div>
+    <button type="submit">Guardar cambios</button>
+}

@@ -1,0 +1,60 @@
+﻿@model List<Workpaces.Models.Sala>
+
+<h2>Salas disponibles</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+else if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+@if (Model != null && Model.Any())
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Capacidad</th>
+                <th>Ubicación</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var sala in Model)
+            {
+                <tr>
+                    <td>@sala.Nombre</td>
+                    <td>@sala.Capacidad</td>
+                    <td>@sala.Ubicacion</td>
+                    <td>
+                        <form action="@Url.Action("Reservar", "User")" method="post">
+                            <input type="hidden" name="IdSala" value="@sala.IdSala" />
+
+                            <label for="FechaReserva">Fecha:</label>
+                            <input type="date" name="FechaReserva" required />
+
+                            <label for="HoraInicio">Hora de inicio:</label>
+                            <input type="time" name="HoraInicio" required />
+
+                            <label for="HoraFin">Hora de fin:</label>
+                            <input type="time" name="HoraFin" required />
+
+                            <button type="submit">Reservar</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No hay salas disponibles.</p>
+}

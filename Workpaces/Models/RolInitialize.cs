@@ -43,8 +43,7 @@ namespace Sem09.Models
                 {
                     userManager.AddToRole(adminUser.Id, "Admin");
                 }
-            }
-
+            }          
         }
     }
 }
