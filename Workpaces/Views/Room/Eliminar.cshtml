@@ -14,7 +14,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.Nombre)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Nombre)
         </dd>
@@ -22,7 +21,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.Capacidad)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Capacidad)
         </dd>
@@ -30,7 +28,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.Ubicacion)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Ubicacion)
         </dd>
@@ -38,7 +35,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.DisponibilidadEquipo)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.DisponibilidadEquipo)
         </dd>
@@ -46,20 +42,25 @@
         <dt>
             @Html.DisplayNameFor(model => model.Estado)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.Estado)
+            @if (Model.Estado)
+            {
+                <span class="badge bg-success">Disponible</span>
+            }
+            else
+            {
+                <span class="badge bg-danger">Ocupada</span>
+            }
         </dd>
-
     </dl>
 
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
-        <br> <br>
+        <br><br>
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-danger" /> |
-            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
+            <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+            @Html.ActionLink("Volver a la lista", "Index", null, new { @class = "btn btn-secondary" })
         </div>
     }
 </div>
