@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Workpaces.Models.Reserva>
+
+@{
+    ViewBag.Title = "Lista de reservaciones";
+}
+
+<h2>Lista de reservaciones</h2>
+
+<p>
+    @Html.ActionLink("Nueva reservación", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HoraInicio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HoraFin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sala.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Usuario.Email)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraInicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraFin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sala.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario.Email)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.IdReserva }) |
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.IdReserva })
+            </td>
+        </tr>
+    }
+
+</table>

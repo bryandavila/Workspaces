@@ -26,4 +26,35 @@
         <p>No hay salas disponibles.</p>// Mensaje si no hay salas
     }
 
+
+
+
+    <button id="login">Login</button>
+    <button id="mensaje">Obtener Mensaje</button>
+    @section scripts
+ {
+        <script>
+            let token = null;
+
+         
+
+            $('#mensaje').click(() => {
+                if (!token) {
+                    alert("Debe iniciar sesión");
+                    return
+                }
+
+                $.ajax({
+                    url: "/ObtenerMensaje",
+                    method: "GET",
+                    headers: { Authorization: `Bearer ${token}` },
+                    success: (response) => {
+
+                        alert(response.Mesanje);
+                    },
+                    error: (ex) => alert("Error en el Autorizacion")
+                })
+            })
+        </script>
+    }
 </main>

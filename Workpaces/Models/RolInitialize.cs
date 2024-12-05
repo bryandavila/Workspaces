@@ -7,7 +7,7 @@ using System.Linq;
 using System.Web;
 using Workpaces.Models;
 
-namespace Sem09.Models
+namespace Workpaces.Models
 {
     public class RolInitialize
     {

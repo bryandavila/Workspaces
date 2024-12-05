@@ -39,7 +39,7 @@
                     </div>
                     <div class="row">
                         <div class="offset-md-2 col-md-10">
-                            <input type="submit" value="Log in" class="btn btn-outline-dark" />
+                            <input type="submit" id="login" value="Log in" class="btn btn-outline-dark" />
                         </div>
                     </div>
                     <p>
@@ -62,4 +62,34 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        let token = null;
+
+           $("#login").click(() => {
+               $.ajax({
+                   url: "/Login",
+                   method: "POST",
+                   contentType: "application/json",
+                   data: JSON.stringify({ Email: "admin@gmail.com", Password: "Admin" }),
+                   success: (response) => {
+                       token = response.Token
+                      // alert(token);
+                       
+                       $.ajax({
+                           url: "/ObtenerMensaje",
+                           method: "GET",
+                           headers: { Authorization: `Bearer ${token}` },
+                           success: (response) => {                             
+                               alert(response.Mesanje);
+                           },
+                           error: (ex) => alert("Error en el Autorizacion")
+                       })
+
+                   },
+                   error: () => alert("Error en el Login")
+               })
+           })
+        
+           </script>
 }
