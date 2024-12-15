@@ -6,13 +6,14 @@ using System.Web.Mvc;
 using System.Data.Entity;
 using System.Net;
 using Workpaces.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Workpaces.Controllers
 {
     public class ReservaController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        [Authorize(Roles = "Admin,Usuario")]
         // GET: Reserva
         public ActionResult Index()
         {
@@ -21,14 +22,17 @@ namespace Workpaces.Controllers
         }
 
         // GET: Reserva/Create
+        [Authorize(Roles = "Admin,Usuario")]
         public ActionResult Create()
         {
             ViewBag.SalaId = new SelectList(db.Sala, "IdSala", "Nombre");
             ViewBag.UsuarioId = new SelectList(db.Users, "Id", "Email");
+            ViewBag.Id = User.Identity.GetUserId();
             return View();
         }
 
         // POST: Reserva/Create
+        [Authorize(Roles = "Admin,Usuario")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdReserva,Fecha,HoraInicio,HoraFin,SalaId,UsuarioId")] Reserva reserva)
@@ -44,6 +48,7 @@ namespace Workpaces.Controllers
                 if (existingReservations.Any())
                 {
                     ModelState.AddModelError("", "La sala no esta disponible en la fecha o horario seleccionado.");
+                    ViewBag.Id = User.Identity.GetUserId();
                     ViewBag.SalaId = new SelectList(db.Sala, "IdSala", "Nombre", reserva.SalaId);
                     ViewBag.UsuarioId = new SelectList(db.Users, "Id", "Email", reserva.UsuarioId);
                     return View(reserva);
@@ -53,12 +58,12 @@ namespace Workpaces.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+            ViewBag.Id = User.Identity.GetUserId();
             ViewBag.SalaId = new SelectList(db.Sala, "IdSala", "Nombre", reserva.SalaId);
             ViewBag.UsuarioId = new SelectList(db.Users, "Id", "Email", reserva.UsuarioId);
             return View(reserva);
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: Reserva/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -77,6 +82,7 @@ namespace Workpaces.Controllers
         }
 
         // POST: Reserva/Edit/5
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IdReserva,Fecha,HoraInicio,HoraFin,SalaId,UsuarioId")] Reserva reserva)
@@ -108,6 +114,7 @@ namespace Workpaces.Controllers
         }
 
         // GET: Reserva/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -121,7 +128,7 @@ namespace Workpaces.Controllers
             }
             return View(reserva);
         }
-
+        [Authorize(Roles = "Admin")]
         // POST: Reserva/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

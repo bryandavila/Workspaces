@@ -8,6 +8,7 @@ using Workpaces.Models;
 
 namespace Workpaces.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RoomController : Controller
     {
         private ApplicationDbContext context = new ApplicationDbContext();

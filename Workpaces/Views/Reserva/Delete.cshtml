@@ -3,51 +3,52 @@
 @{
     ViewBag.Title = "Eliminar reserva";
 }
+<body >
+    <h2>Eliminar reserva</h2>
 
-<h2>Eliminar reserva</h2>
-
-<h3>¿Estás seguro de que quieres eliminar esto?</h3>
-<div>
-    <h4>Reserva</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Fecha)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Fecha)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.HoraInicio)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.HoraInicio)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.HoraFin)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.HoraFin)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Sala.Nombre)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Sala.Nombre)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Usuario.Email)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Usuario.Email)
-        </dd>
-    </dl>
-
-    @using (Html.BeginForm("Delete", "Reserva", FormMethod.Post))
-    {
-        @Html.AntiForgeryToken()
-        <input type="hidden" name="id" value="@Model.IdReserva" />
-        <input type="submit" value="Borrar" class="btn btn-danger" />
-        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
-    }
-</div>
+    <h3>¿Estás seguro de que quieres eliminar esto?</h3>
+    <div>
+        <h4>Reserva</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Fecha)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.HoraInicio)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.HoraInicio)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.HoraFin)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.HoraFin)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Sala.Nombre)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Sala.Nombre)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Usuario.Email)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Usuario.Email)
+            </dd>
+        </dl>
+        <br>
+        @using (Html.BeginForm("Delete", "Reserva", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@Model.IdReserva" />
+            <input type="submit" value="Borrar" class="btn btn-danger" />
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
+        }
+    </div>
+    </body>

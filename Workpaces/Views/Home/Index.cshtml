@@ -1,60 +1,84 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model IEnumerable<Workpaces.Models.Reserva>
+@{
+    ViewBag.Title = "Home - Reserva de Salas";
 }
 
-<main>
+<main style="text-align: center;">
     <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
+        <h1 id="title" class="text-center">Reserva de Salas</h1>
+        <p class="lead text-center">Encuentra y reserva las salas ideales para tus necesidades con facilidad y rapidez.</p>
     </section>
 
-    @if (Model != null && Model.Any()) // Verifica si el modelo no es null y contiene elementos
-    {
-        foreach (var sala in Model)
+    <section class="row mt-4">
+        @if (Model != null && Model.Any())
         {
-            <div>
-                <h3>@sala.Nombre</h3>
-                <p>Ubicación: @sala.Ubicacion</p>
-                <p>Capacidad: @sala.Capacidad</p>
-                <a href="@Url.Action("Reservar", "Room", new { id = sala.IdSala })">Reservar</a>
-            </div>
-        }
-    }
-    else
-    {
-        <p>No hay salas disponibles.</p>// Mensaje si no hay salas
-    }
+            <p>Información de tus reservaciones</p>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Fecha)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.HoraInicio)
+                        </th>
+                        <th>
+                            Sala
+                        </th>
+
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.Fecha.ToString("yyyy-MM-dd")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HoraInicio)
+                        </td>
+                        
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Sala.Nombre)
+                        </td>
 
 
-
-
-    <button id="login">Login</button>
-    <button id="mensaje">Obtener Mensaje</button>
-    @section scripts
- {
-        <script>
-            let token = null;
-
-         
-
-            $('#mensaje').click(() => {
-                if (!token) {
-                    alert("Debe iniciar sesión");
-                    return
+                    </tr>
                 }
 
-                $.ajax({
-                    url: "/ObtenerMensaje",
-                    method: "GET",
-                    headers: { Authorization: `Bearer ${token}` },
-                    success: (response) => {
+            </table>
+        }
+        else
+        {
+            <div class="col-12 text-center">
+                <p class="text-muted">No has reservado ninguna sala. Por favor, <a href="@Url.Action("Create", "Reserva", null)">Reservar una sala</a>.</p>
 
-                        alert(response.Mesanje);
-                    },
-                    error: (ex) => alert("Error en el Autorizacion")
-                })
-            })
-        </script>
-    }
+            </div>
+        }
+    </section>
+
+   
 </main>
+
+<style>
+    #title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: green;
+    }
+
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+
+    .card-footer {
+        background-color: #f8f9fa;
+    }
+</style>
