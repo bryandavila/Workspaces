@@ -17,7 +17,14 @@ namespace Workpaces.Controllers
         // GET: Reserva
         public ActionResult Index()
         {
-            var reservas = db.Reservas.Include(r => r.Sala).Include(r => r.Usuario);
+            // Obtener el ID del usuario actual
+            string currentUserId = User.Identity.GetUserId();
+
+            // Filtrar reservas según el rol del usuario
+            var reservas = User.IsInRole("Admin")
+                ? db.Reservas.Include(r => r.Sala).Include(r => r.Usuario) // Admin ve todas las reservas
+                : db.Reservas.Include(r => r.Sala).Include(r => r.Usuario).Where(r => r.UsuarioId == currentUserId); // Usuarios ven solo sus reservas
+
             return View(reservas.ToList());
         }
 

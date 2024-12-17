@@ -15,13 +15,29 @@ namespace Workpaces.Controllers
         private readonly ApplicationDbContext context = new ApplicationDbContext();
 
         // Ver las reservas
-        public ActionResult VerReservas()
+        public ActionResult VerReservas(string filtroFecha = null, string filtroSala = null, string filtroUsuario = null)
         {
             var reservas = context.Reservas
                 .Include(r => r.Sala)
                 .Include(r => r.Usuario)
-                .ToList();
-            return View(reservas);
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(filtroFecha) && DateTime.TryParse(filtroFecha, out DateTime fecha))
+            {
+                reservas = reservas.Where(r => DbFunctions.TruncateTime(r.Fecha) == fecha);
+            }
+
+            if (!string.IsNullOrEmpty(filtroSala))
+            {
+                reservas = reservas.Where(r => r.Sala.Nombre.Contains(filtroSala));
+            }
+
+            if (!string.IsNullOrEmpty(filtroUsuario))
+            {
+                reservas = reservas.Where(r => r.Usuario.UserName.Contains(filtroUsuario));
+            }
+
+            return View(reservas.ToList());
         }
 
 

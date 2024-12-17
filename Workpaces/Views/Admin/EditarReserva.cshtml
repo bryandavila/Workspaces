@@ -7,6 +7,26 @@
     @Html.HiddenFor(model => model.IdReserva)
 
     <div>
+        <label for="SalaId">Sala:</label>
+        <select id="SalaId" name="SalaId" class="form-control">
+            @foreach (var sala in ViewBag.Salas as IEnumerable<Workpaces.Models.Sala>)
+            {
+                <option value="@sala.IdSala" @(sala.IdSala == Model.SalaId ? "selected" : "")>@sala.Nombre</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label for="UsuarioId">Usuario:</label>
+        <select id="UsuarioId" name="UsuarioId" class="form-control">
+            @foreach (var usuario in ViewBag.Usuarios as IEnumerable<Workpaces.Models.ApplicationUser>)
+            {
+                <option value="@usuario.Id" @(usuario.Id == Model.UsuarioId ? "selected" : "")>@usuario.UserName</option>
+            }
+        </select>
+    </div>
+
+    <div>
         <label for="Fecha">Fecha:</label>
         @Html.EditorFor(model => model.Fecha)
     </div>

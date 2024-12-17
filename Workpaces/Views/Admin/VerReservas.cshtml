@@ -1,34 +1,75 @@
-﻿@using Workpaces.Models
+﻿@model IEnumerable<Workpaces.Models.Reserva>
 
-@model IEnumerable<Workpaces.Models.Reserva>
+@{
+    ViewBag.Title = "Reservas";
+}
 
-<h2>Reservas</h2>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Reservas</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Sala</th>
-            <th>Usuario</th>
-            <th>Fecha</th>
-            <th>Hora Inicio</th>
-            <th>Hora Fin</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var reserva in Model)
-        {
+    <!-- Formulario de filtros -->
+    <form method="get" action="@Url.Action("VerReservas", "Admin")" class="p-4 border rounded shadow-sm mb-4">
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="filtroFecha" class="form-label fw-bold">Fecha</label>
+                <input type="date" id="filtroFecha" name="filtroFecha" class="form-control" value="@Request.QueryString["filtroFecha"]" />
+            </div>
+            <div class="col-md-4">
+                <label for="filtroSala" class="form-label fw-bold">Sala</label>
+                <input type="text" id="filtroSala" name="filtroSala" class="form-control" placeholder="Ej. Sala 1" value="@Request.QueryString["filtroSala"]" />
+            </div>
+            <div class="col-md-4">
+                <label for="filtroUsuario" class="form-label fw-bold">Usuario</label>
+                <input type="text" id="filtroUsuario" name="filtroUsuario" class="form-control" placeholder="Ej. usuario@correo.com" value="@Request.QueryString["filtroUsuario"]" />
+            </div>
+        </div>
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-filter"></i> Filtrar</button>
+        </div>
+    </form>
+
+    <!-- Tabla de reservas -->
+    <table class="table table-striped table-hover shadow-sm">
+        <thead class="table-dark">
             <tr>
-                <td>@(reserva.Sala?.Nombre ?? "No disponible")</td>
-                <td>@(reserva.Usuario?.UserName ?? "No disponible")</td>
-                <td>@reserva.Fecha.ToString("d")</td>
-                <td>@reserva.HoraInicio</td>
-                <td>@reserva.HoraFin</td>
-                <td>
-                    @Html.ActionLink("Editar", "EditarReserva", new { idReserva = reserva.IdReserva }) |
-                    @Html.ActionLink("Eliminar", "EliminarReserva", new { idReserva = reserva.IdReserva })
-                </td>
+                <th>Sala</th>
+                <th>Usuario</th>
+                <th>Fecha</th>
+                <th>Hora Inicio</th>
+                <th>Hora Fin</th>
+                <th>Acciones</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="6" class="text-center text-muted">No hay reservas disponibles.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var reserva in Model)
+                {
+                    <tr>
+                        <td>@(reserva.Sala?.Nombre ?? "No disponible")</td>
+                        <td>@(reserva.Usuario?.UserName ?? "No disponible")</td>
+                        <td>@reserva.Fecha.ToString("dd/MM/yyyy")</td>
+                        <td>@reserva.HoraInicio</td>
+                        <td>@reserva.HoraFin</td>
+                        <td>
+                            <a href="@Url.Action("EditarReserva", "Admin", new { idReserva = reserva.IdReserva })"
+                               class="btn btn-warning btn-sm me-2">
+                                <i class="bi bi-pencil"></i> Editar
+                            </a>
+                            <a href="@Url.Action("EliminarReserva", "Admin", new { idReserva = reserva.IdReserva })"
+                               class="btn btn-danger btn-sm">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
