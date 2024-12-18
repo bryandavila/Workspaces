@@ -14,12 +14,14 @@ namespace Workpaces.Models
         public int IdReserva { get; set; }
         
         [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Fecha { get; set; }
         [Required]
         public TimeSpan HoraInicio { get; set; }
         [Required]
         public TimeSpan HoraFin { get; set; }
-
+        public string Estado { get; set; }
         public int SalaId { get; set; }
         [ForeignKey("SalaId")]
         public Sala Sala { get; set; }

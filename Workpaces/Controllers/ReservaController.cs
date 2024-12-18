@@ -46,30 +46,35 @@ namespace Workpaces.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Verificar si hay conflictos con otras reservas
                 var existingReservations = db.Reservas
                     .Where(r => r.SalaId == reserva.SalaId && r.Fecha == reserva.Fecha &&
                                 ((reserva.HoraInicio >= r.HoraInicio && reserva.HoraInicio < r.HoraFin) ||
                                  (reserva.HoraFin > r.HoraInicio && reserva.HoraFin <= r.HoraFin)))
                     .ToList();
 
-                if (existingReservations.Any())
+                if (!existingReservations.Any())
                 {
-                    ModelState.AddModelError("", "La sala no esta disponible en la fecha o horario seleccionado.");
-                    ViewBag.Id = User.Identity.GetUserId();
-                    ViewBag.SalaId = new SelectList(db.Sala, "IdSala", "Nombre", reserva.SalaId);
-                    ViewBag.UsuarioId = new SelectList(db.Users, "Id", "Email", reserva.UsuarioId);
-                    return View(reserva);
+                    // Si no hay conflictos, aprobar automáticamente
+                    reserva.Estado = "Aprobada";
+                }
+                else
+                {
+                    // Si hay conflictos, marcar como pendiente
+                    reserva.Estado = "Pendiente";
                 }
 
                 db.Reservas.Add(reserva);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             ViewBag.Id = User.Identity.GetUserId();
             ViewBag.SalaId = new SelectList(db.Sala, "IdSala", "Nombre", reserva.SalaId);
             ViewBag.UsuarioId = new SelectList(db.Users, "Id", "Email", reserva.UsuarioId);
             return View(reserva);
         }
+
         [Authorize(Roles = "Admin")]
         // GET: Reserva/Edit/5
         public ActionResult Edit(int? id)
@@ -92,22 +97,26 @@ namespace Workpaces.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdReserva,Fecha,HoraInicio,HoraFin,SalaId,UsuarioId")] Reserva reserva)
+        public ActionResult Edit([Bind(Include = "IdReserva,Fecha,HoraInicio,HoraFin,SalaId,UsuarioId,Estado")] Reserva reserva)
         {
             if (ModelState.IsValid)
             {
-                var existingReservations = db.Reservas
-                    .Where(r => r.SalaId == reserva.SalaId && r.Fecha == reserva.Fecha && r.IdReserva != reserva.IdReserva &&
-                                ((reserva.HoraInicio >= r.HoraInicio && reserva.HoraInicio < r.HoraFin) ||
-                                 (reserva.HoraFin > r.HoraInicio && reserva.HoraFin <= r.HoraFin)))
-                    .ToList();
-
-                if (existingReservations.Any())
+                // Verificar conflictos de horario si el estado no es "Cancelada"
+                if (reserva.Estado != "Cancelada")
                 {
-                    ModelState.AddModelError("", "La sala no esta disponible en la fecha o horario seleccionado.");
-                    ViewBag.SalaId = new SelectList(db.Sala, "IdSala", "Nombre", reserva.SalaId);
-                    ViewBag.UsuarioId = new SelectList(db.Users, "Id", "Email", reserva.UsuarioId);
-                    return View(reserva);
+                    var existingReservations = db.Reservas
+                        .Where(r => r.SalaId == reserva.SalaId && r.Fecha == reserva.Fecha && r.IdReserva != reserva.IdReserva &&
+                                    ((reserva.HoraInicio >= r.HoraInicio && reserva.HoraInicio < r.HoraFin) ||
+                                     (reserva.HoraFin > r.HoraInicio && reserva.HoraFin <= r.HoraFin)))
+                        .ToList();
+
+                    if (existingReservations.Any())
+                    {
+                        ModelState.AddModelError("", "La sala no está disponible en el horario seleccionado.");
+                        ViewBag.SalaId = new SelectList(db.Sala, "IdSala", "Nombre", reserva.SalaId);
+                        ViewBag.UsuarioId = new SelectList(db.Users, "Id", "Email", reserva.UsuarioId);
+                        return View(reserva);
+                    }
                 }
 
                 db.Entry(reserva).State = EntityState.Modified;
@@ -119,6 +128,7 @@ namespace Workpaces.Controllers
             ViewBag.UsuarioId = new SelectList(db.Users, "Id", "Email", reserva.UsuarioId);
             return View(reserva);
         }
+
 
         // GET: Reserva/Delete/5
         [Authorize(Roles = "Admin")]
@@ -155,5 +165,46 @@ namespace Workpaces.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public ActionResult Estadisticas()
+        {
+            // Obtener las estadísticas de ocupación por sala, horas demandadas y días activos
+            var ocupacionPorSala = db.Reservas
+                .GroupBy(r => r.Sala.Nombre)
+                .Select(g => new
+                {
+                    Sala = g.Key,
+                    PorcentajeOcupacion = (double)g.Count() / db.Reservas.Count() * 100
+                })
+                .ToList();
+
+            var horasDemandadas = db.Reservas
+                .GroupBy(r => r.HoraInicio.Hours) // Usar .Hours aquí
+                .Select(g => new
+                {
+                    Hora = g.Key,
+                    TotalReservas = g.Count()
+                })
+                .ToList();
+
+            var diasActivos = db.Reservas
+    .AsEnumerable()  // Traemos los datos a memoria para poder trabajar con ellos
+    .GroupBy(r => r.Fecha.DayOfWeek)  // Ahora podemos acceder a DayOfWeek
+    .Select(g => new
+    {
+        Dia = g.Key.ToString(),
+        TotalReservas = g.Count()
+    })
+    .ToList();
+
+            // Pasar los datos a la vista
+            ViewBag.OcupacionPorSala = ocupacionPorSala;
+            ViewBag.HorasDemandadas = horasDemandadas;
+            ViewBag.DiasActivos = diasActivos;
+
+            return View(); // Esto debe ser lo que devuelves, no Json
+        }
+
+
     }
 }

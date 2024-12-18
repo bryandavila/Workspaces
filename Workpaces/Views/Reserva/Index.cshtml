@@ -31,6 +31,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Usuario.Email)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Estado)
+                </th>
                 @if (User.IsInRole("Admin"))
                 {
                     <th>Acciones</th>
@@ -41,7 +44,8 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Fecha)
+                   
+                    @item.Fecha.ToString("yyyy-MM-dd")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.HoraInicio)
@@ -54,6 +58,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Usuario.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estado)
                 </td>
                 @if (User.IsInRole("Admin"))
                 {

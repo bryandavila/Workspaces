@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Estadísticas de Uso";
+    var ocupacionPorSala = ViewBag.OcupacionPorSala;
+    var horasDemandadas = ViewBag.HorasDemandadas;
+    var diasActivos = ViewBag.DiasActivos;
+}
+
+<h2>Estadísticas de Uso</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <h4>Porcentaje de Ocupación por Sala</h4>
+        <canvas id="ocupacionPorSalaChart"></canvas>
+    </div>
+    <div class="col-md-6">
+        <h4>Horas Más Demandadas</h4>
+        <canvas id="horasDemandadasChart"></canvas>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h4>Días con Más Actividad</h4>
+        <canvas id="diasActivosChart"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Gráfica de ocupación por sala
+    var ocupacionPorSala = @Html.Raw(Json.Encode(ViewBag.OcupacionPorSala));
+    var ocupacionPorSalaCtx = document.getElementById('ocupacionPorSalaChart').getContext('2d');
+    var ocupacionPorSalaChart = new Chart(ocupacionPorSalaCtx, {
+        type: 'pie',
+        data: {
+            labels: ocupacionPorSala.map(o => o.Sala),
+            datasets: [{
+                data: ocupacionPorSala.map(o => o.PorcentajeOcupacion),
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
+            }]
+        }
+    });
+
+    // Gráfica de horas más demandadas
+    var horasDemandadas = @Html.Raw(Json.Encode(ViewBag.HorasDemandadas));
+    var horasDemandadasCtx = document.getElementById('horasDemandadasChart').getContext('2d');
+    var horasDemandadasChart = new Chart(horasDemandadasCtx, {
+        type: 'bar',
+        data: {
+            labels: horasDemandadas.map(h => h.Hora + ":00"),
+            datasets: [{
+                label: 'Reservas',
+                data: horasDemandadas.map(h => h.TotalReservas),
+                backgroundColor: '#36A2EB'
+            }]
+        }
+    });
+
+    // Gráfica de días más activos
+    var diasActivos = @Html.Raw(Json.Encode(ViewBag.DiasActivos));
+    var diasActivosCtx = document.getElementById('diasActivosChart').getContext('2d');
+    var diasActivosChart = new Chart(diasActivosCtx, {
+        type: 'line',
+        data: {
+            labels: diasActivos.map(d => d.Dia),
+            datasets: [{
+                label: 'Reservas',
+                data: diasActivos.map(d => d.TotalReservas),
+                borderColor: '#FF6384',
+                fill: false
+            }]
+        }
+    });
+</script>

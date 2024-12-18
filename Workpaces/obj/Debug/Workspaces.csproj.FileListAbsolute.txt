@@ -425,3 +425,5 @@ C:\Users\danie\source\repos\ProyectoPrograAvanzada\Workspaces\Workpaces\bin\Syst
 C:\Users\danie\source\repos\ProyectoPrograAvanzada\Workspaces\Workpaces\bin\System.Web.Http.xml
 C:\Users\danie\source\repos\ProyectoPrograAvanzada\Workspaces\Workpaces\bin\System.Web.Http.Cors.xml
 C:\Users\danie\source\repos\ProyectoPrograAvanzada\Workspaces\Workpaces\bin\System.Web.Http.WebHost.xml
+C:\Users\alexa\source\repos\Workspaces\Workpaces\obj\Debug\Workpaces.Migrations.estadisticas.resources
+C:\Users\alexa\source\repos\Workspaces\Workpaces\obj\Debug\Workpaces.Migrations.update.resources

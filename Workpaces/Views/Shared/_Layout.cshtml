@@ -21,6 +21,7 @@
                     @if (User.IsInRole("Admin"))
                     {
                         <li>@Html.ActionLink("Rooms", "Index", "Room", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Estadísticas", "Estadisticas", "Reserva", null, new { @class = "nav-link" })</li>
 
                     }
                     <li>@Html.ActionLink("Reserva", "Index", "Reserva", new { area = "" }, new { @class = "nav-link" })</li>
